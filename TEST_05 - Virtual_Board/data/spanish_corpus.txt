@@ -1,0 +1,4 @@
+hola, ¿cómo estás?
+estoy aprendiendo a programar en python.
+me gusta mucho la inteligencia artificial.
+las redes neuronales recurrentes permiten completar texto.
