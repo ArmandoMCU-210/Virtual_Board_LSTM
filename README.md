@@ -34,12 +34,6 @@ Este repositorio engloba **dos proyectos independientes pero complementarios** q
 
 Cada proyecto puede usarse por separado o en conjunto (por ejemplo, el **Proyecto I** para accesibilidad en escritorio y el **Proyecto II** para aplicaciones web). Ambos se alimentan del mismo modelo (`autocomplete_es.h5`) y del tokenizador (`tokenizer.pkl`).
 
-\----------|-------------|-------------|
-\| **Teclado virtual de escritorio** | OpenCV · MediaPipe · Pyttsx3 | Controla un teclado QWERTY en pantalla mediante la mirada, parpadeo y gestos de mano. Incluye autocompletado LSTM en tiempo real. |
-\| **Demo web** | Flask · HTML · JS | Campo de texto simple que muestra la misma capacidad de autocompletar palabras usando el modelo LSTM servido vía API. |
-
-La meta principal es **facilitar la comunicación** a personas con movilidad reducida o necesidades especiales, manteniendo todo **100 % local** (sin enviar datos a la nube).
-
 ---
 
 ## Funciones Destacadas
