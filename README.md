@@ -1,6 +1,6 @@
 # Virtual Keyboard with Eye‑Tracking, Hand Gestures **and** LSTM Autocompletion
 
-> **Proyecto académico 2025** — Interfaces de accesibilidad en Python + OpenCV/MediaPipe + TensorFlow + Flask
+> **Proyecto Inteligencia Artificial - Universidad Veracruzana** — Interfaces de accesibilidad en Python + OpenCV/MediaPipe + TensorFlow + Flask
 
 ---
 
@@ -8,17 +8,18 @@
 
 1. [Introducción](#introducción)
 2. [Funciones Destacadas](#funciones-destacadas)
-3. [Arquitectura General](#arquitectura-general)
-4. [Instalación](#instalación)
-5. [Entrenamiento del Modelo LSTM](#entrenamiento-del-modelo-lstm)
-6. [Uso](#uso)
+3. [Requerimientos](#requerimientos)
+4. [Arquitectura General](#arquitectura-general)
+5. [Instalación](#instalación)
+6. [Entrenamiento del Modelo LSTM](#entrenamiento-del-modelo-lstm)
+7. [Uso](#uso)
 
    * [Teclado virtual de escritorio](#teclado-virtual-de-escritorio)
    * [Demo web con Flask](#demo-web-con-flask)
-7. [Estructura del Repositorio](#estructura-del-repositorio)
-8. [Personalización y Mejora](#personalización-y-mejora)
-9. [Créditos](#créditos)
-10. [Licencia](#licencia)
+8. [Estructura del Repositorio](#estructura-del-repositorio)
+9. [Personalización y Mejora](#personalización-y-mejora)
+10. [Créditos](#créditos)
+11. [Licencia](#licencia)
 
 ---
 
@@ -55,6 +56,56 @@ La meta principal es **facilitar la comunicación** a personas con movilidad red
 | `server.py`                             | API Flask que expone `/predict` y sirve la página de ejemplo.                           |
 | `index.html`                            | Página con un `<input>` conectado vía *fetch* a la API.                                 |
 | `static/script.js`                      | Lógica JS que detecta `Tab` para autocompletar.                                         |
+
+---
+
+## Requerimientos
+
+### Proyecto I – EyeKey (Teclado Virtual de Escritorio)
+
+**Hardware mínimo**
+• Cámara web HD (≥ 720p @ 30 fps)
+• CPU con soporte AVX; GPU NVIDIA (opcional) para acelerar TensorFlow
+• Windows, Linux o macOS
+
+**Dependencias Python** (`requirements_eye_key.txt`):
+
+```text
+opencv-python>=4.9
+mediapipe>=0.10
+numpy>=1.24
+tensorflow>=2.15
+h5py>=3.10
+pyttsx3>=2.90
+```
+
+Instalar solo EyeKey:
+
+```bash
+pip install -r requirements_eye_key.txt
+```
+
+---
+
+### Proyecto II – LSTM‑WebDemo (API Flask + Frontend JS)
+
+**Dependencias Python** (`requirements_webdemo.txt`):
+
+```text
+flask>=3.0
+tensorflow>=2.15
+numpy>=1.24
+h5py>=3.10
+gunicorn>=22.0   # opcional para producción
+```
+
+Instalar solo LSTM‑WebDemo:
+
+```bash
+pip install -r requirements_webdemo.txt
+```
+
+> **Nota**: El modelo `autocomplete_es.h5` y `tokenizer.pkl` deben ubicarse en la carpeta `model/` accesible por ambos proyectos.
 
 ---
 
@@ -98,11 +149,23 @@ source EyeTracking/bin/activate  # Windows: EyeTracking\Scripts\activate
 
 ### 3 · Instalar dependencias
 
+**Para Proyecto I – EyeKey**
+
 ```bash
-pip install -r requirements.txt   # Incluye Flask, TensorFlow, OpenCV, MediaPipe, etc.
+pip install -r requirements_eye_key.txt
 ```
 
-> **Nota Windows**: MediaPipe requiere los Microsoft C++ Build Tools (CMake). Sigue la guía oficial si obtienes errores de compilación.
+**Para Proyecto II – LSTM‑WebDemo**
+
+```bash
+pip install -r requirements_webdemo.txt
+```
+
+**Para ambos proyectos (todo‑en‑uno)**
+
+```bash
+pip install -r requirements.txt  # incluye todas las dependencias
+```
 
 ---
 
@@ -159,23 +222,34 @@ Controles rápidos:
 
 ## Estructura del Repositorio
 
+La carpeta raíz contiene **dos proyectos independientes**.
+
 ```
-├── data/
-│   └── spanish_corpus.txt
-├── model/
-│   ├── autocomplete_es.h5
-│   └── tokenizer.pkl
-├── modules/
-│   ├── autocompleter_module.py
-│   ├── detecting_eye_blink_module.py
-│   └── tracking_hand_module.py
-├── static/
-│   └── script.js
-├── index.html
-├── server.py
-├── vir_keyboard_eye_det.py
-├── train_model.py
-├── requirements.txt
-└── README.md
+├── TEST_04‑Autocompletador_LSTM/              # Proyecto II – LSTM‑WebDemo
+│   ├── data/
+│   │   └── spanish_corpus.txt
+│   ├── model/
+│   │   ├── autocomplete_es.h5
+│   │   └── tokenizer.pkl
+│   ├── static/
+│   │   └── script.js
+│   ├── templates/
+│   │   └── index.html
+│   ├── server.py                              # API Flask + página de demo
+│   └── train_model.py                         # Entrenamiento del modelo
+│
+└── TEST_05‑Virtual_Board/                     # Proyecto I – EyeKey
+    ├── data/
+    ├── model/
+    ├── autocompleter_module.py                # Carga del modelo y predicción
+    ├── detecting_eye_blink_module.py          # Detección de parpadeo
+    ├── tracking_hand_module.py                # Detección de gestos de mano
+    ├── vir_keyboard_eye_det.py                # Programa principal del teclado
+    ├── train_model.py                         # (opcional) re‑entrenar desde VS
+    ├── click.mp3 | sclick.mp3                 # Sonidos opcionales
+    └── output.txt                             # Texto guardado por el usuario
 ```
+
+> Carpeta `__pycache__/` y archivos generados (
+> `*.pyc`, entornos `venv/`) deben excluirse vía `.gitignore`.
 
